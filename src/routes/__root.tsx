@@ -15,6 +15,7 @@ import { MotionConfig } from "motion/react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Toaster } from "@/components/ui/sonner";
+import { ViewportSafety } from "@/components/common/ViewportSafety";
 import { BRAND, pageTitle } from "@/config/brand";
 import { DemoSessionProvider } from "@/state/demo-session";
 import { themeInitScript } from "@/state/theme";
@@ -86,7 +87,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     // twitter:image here: every page without its own would inherit the root's preview image.
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" },
       { title: pageTitle() },
       { name: "description", content: `${BRAND.name} — ${BRAND.tagline}` },
       { property: "og:title", content: pageTitle() },
@@ -136,6 +137,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <MotionConfig reducedMotion="user">
         <DemoSessionProvider>
+          <ViewportSafety />
           {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
           <Outlet />
           <Toaster position="bottom-center" />

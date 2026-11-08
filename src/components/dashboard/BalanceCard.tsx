@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Info, Pencil } from "lucide-react";
 import { toast } from "sonner";
 
@@ -26,6 +26,7 @@ interface BalanceCardProps {
 
 export function BalanceCard({ balanceCents, onAdjust, className }: BalanceCardProps) {
   const [open, setOpen] = useState(false);
+  const adjustButtonRef = useRef<HTMLButtonElement>(null);
   const [draft, setDraft] = useState(balanceCents);
 
   const openDialog = () => {
@@ -34,7 +35,7 @@ export function BalanceCard({ balanceCents, onAdjust, className }: BalanceCardPr
   };
 
   return (
-    <section aria-labelledby="saldo-titulo" className={cn("surface-card flex flex-col p-5 sm:p-6", className)}>
+    <section aria-labelledby="saldo-titulo" className={cn("lume-balance-card surface-card flex min-w-0 flex-col p-5 sm:p-6", className)}>
       <div className="flex items-center gap-1.5">
         <h2 id="saldo-titulo" className="text-sm font-medium text-muted-foreground">
           Saldo Atual
@@ -49,27 +50,27 @@ export function BalanceCard({ balanceCents, onAdjust, className }: BalanceCardPr
               <Info className="size-4" />
             </button>
           </PopoverTrigger>
-          <PopoverContent align="start" className="w-72 text-sm leading-relaxed">
+          <PopoverContent align="start" className="w-72 max-w-[calc(100vw-2rem)] text-sm leading-relaxed">
             É o saldo de controle do app, atualizado pelos gastos registrados. Pode ser diferente do
             saldo do seu banco. Não muda com os filtros de período ou categoria.
           </PopoverContent>
         </Popover>
       </div>
 
-      <p className="num mt-3 text-[2rem] font-semibold leading-none tracking-tight text-foreground sm:text-[2.5rem]">
+      <p className="lume-balance-value num mt-3 text-[2rem] font-semibold leading-tight tracking-tight text-foreground sm:text-[2.5rem]">
         <FadeValue value={formatBRL(balanceCents)} />
       </p>
       <p className="mt-3 text-sm text-muted-foreground">Saldo de controle após os gastos registrados.</p>
 
       <div className="mt-auto pt-5">
-        <Button variant="secondary" size="sm" onClick={openDialog}>
+        <Button ref={adjustButtonRef} variant="secondary" size="sm" onClick={openDialog}>
           <Pencil />
           Ajustar saldo
         </Button>
       </div>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-md" onCloseAutoFocus={(event) => { event.preventDefault(); adjustButtonRef.current?.focus(); }}>
           <form
             onSubmit={(e) => {
               e.preventDefault();

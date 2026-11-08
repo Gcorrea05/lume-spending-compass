@@ -25,7 +25,7 @@ interface FiltersBarProps {
 }
 
 const controlClass =
-  "press flex h-11 w-full items-center gap-2 rounded-lg border border-input bg-surface px-3.5 text-left text-[0.95rem] text-foreground hover:border-border-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
+  "press flex min-h-11 w-full py-2 items-center gap-2 rounded-lg border border-input bg-surface px-3.5 text-left text-[0.95rem] text-foreground hover:border-border-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
 
 export function FiltersBar({
   search,
@@ -37,11 +37,11 @@ export function FiltersBar({
   const activeMonth = search.dias ? undefined : (search.mes ?? defaultMonth);
 
   return (
-    <div className={cn("space-y-2", className)}>
+    <div className={cn("lume-filters space-y-2", className)}>
       <div
         role="group"
         aria-label="Filtros"
-        className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-[minmax(13rem,1fr)_auto_minmax(13rem,1fr)]"
+        className="lume-filters-grid grid gap-3"
       >
         <MonthPicker
           value={activeMonth}
@@ -49,14 +49,14 @@ export function FiltersBar({
           onSelect={(m) => onChange(selectMonth(search, m))}
         />
 
-        <div className="space-y-1.5 sm:order-3 sm:col-span-2 xl:order-none xl:col-span-1">
+        <div className="lume-interval-field min-w-0 space-y-1.5">
           <span id="filtro-intervalo" className="block text-sm font-medium text-muted-foreground">
             Intervalo
           </span>
           <div
             role="group"
             aria-labelledby="filtro-intervalo"
-            className="grid h-11 grid-cols-4 gap-1 rounded-lg border border-input bg-surface p-1"
+            className="lume-interval-options grid grid-cols-4 gap-1 rounded-lg border border-input bg-surface p-1"
           >
             {INTERVAL_OPTIONS.map((d) => {
               const active = search.dias === d;
@@ -68,7 +68,7 @@ export function FiltersBar({
                   aria-label={`Últimos ${d} dias`}
                   onClick={() => onChange(selectInterval(search, d))}
                   className={cn(
-                    "press rounded-md px-3 text-sm font-medium whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                    "press min-h-11 rounded-md px-2 py-2 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                     active
                       ? "bg-primary text-primary-foreground"
                       : "text-muted-foreground hover:bg-surface-raised hover:text-foreground",
@@ -155,14 +155,14 @@ function MonthPicker({
             </span>
           </button>
         </PopoverTrigger>
-        <PopoverContent align="start" className="w-[17.5rem] p-3">
+        <PopoverContent align="start" className="w-[17.5rem] max-w-[calc(100vw-2rem)] p-3">
           <div className="mb-2 flex items-center justify-between">
             <button
               type="button"
               aria-label="Ano anterior"
               disabled={year <= minYear}
               onClick={() => setYear((y) => y - 1)}
-              className="press inline-flex size-9 items-center justify-center rounded-md text-muted-foreground hover:bg-surface-raised hover:text-foreground disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="press inline-flex size-11 items-center justify-center rounded-md text-muted-foreground hover:bg-surface-raised hover:text-foreground disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <ChevronLeft className="size-4" />
             </button>
@@ -174,7 +174,7 @@ function MonthPicker({
               aria-label="Próximo ano"
               disabled={year >= maxYear}
               onClick={() => setYear((y) => y + 1)}
-              className="press inline-flex size-9 items-center justify-center rounded-md text-muted-foreground hover:bg-surface-raised hover:text-foreground disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="press inline-flex size-11 items-center justify-center rounded-md text-muted-foreground hover:bg-surface-raised hover:text-foreground disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <ChevronRight className="size-4" />
             </button>
@@ -195,7 +195,7 @@ function MonthPicker({
                     setOpen(false);
                   }}
                   className={cn(
-                    "press relative h-10 rounded-md text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                    "press relative min-h-11 rounded-md text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
                     selected
                       ? "bg-primary text-primary-foreground"
                       : "text-foreground hover:bg-surface-raised",

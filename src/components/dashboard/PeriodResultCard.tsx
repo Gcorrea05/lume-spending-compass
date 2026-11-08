@@ -23,7 +23,7 @@ export function PeriodResultCard({
   return (
     <section
       aria-labelledby="resultado-titulo"
-      className={cn("surface-card flex flex-col p-5 sm:p-6", className)}
+      className={cn("lume-period-card surface-card flex min-w-0 flex-col p-5 sm:p-6", className)}
     >
       <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
         <div>
@@ -45,13 +45,13 @@ export function PeriodResultCard({
         )}
       </div>
 
-      <dl className="mt-5 grid grid-cols-1 gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-[1fr_1fr_1.1fr]">
+      <dl className="lume-result-grid mt-5 gap-px rounded-lg border border-border bg-border">
         <div className="bg-surface p-4">
           <dt className="flex items-center gap-1.5 text-sm text-muted-foreground">
             <ArrowUpRight className="size-4 text-subtle-foreground" aria-hidden="true" />
             Entradas
           </dt>
-          <dd className="num mt-1.5 whitespace-nowrap text-xl font-semibold text-foreground">
+          <dd className="lume-summary-value num mt-1.5 text-xl font-semibold text-foreground">
             <FadeValue value={formatBRL(summary.incomeCents)} />
           </dd>
           {summary.incomeCents === 0 && (
@@ -64,13 +64,13 @@ export function PeriodResultCard({
             <ArrowDownRight className="size-4 text-subtle-foreground" aria-hidden="true" />
             Saídas
           </dt>
-          <dd className="num mt-1.5 whitespace-nowrap text-xl font-semibold text-foreground">
+          <dd className="lume-summary-value num mt-1.5 text-xl font-semibold text-foreground">
             <FadeValue value={formatBRL(summary.outflowTotalCents)} />
           </dd>
           <dd className="mt-1 text-xs text-subtle-foreground">Total registrado</dd>
           <dd className="mt-2.5 flex flex-wrap items-baseline justify-between gap-x-2 border-t border-border pt-2.5 text-sm">
             <span className="whitespace-nowrap text-muted-foreground">Minha parte</span>
-            <span className="num whitespace-nowrap font-medium text-foreground">
+            <span className="lume-money num font-medium text-foreground">
               <FadeValue value={formatBRL(summary.myShareCents)} />
             </span>
           </dd>
@@ -81,7 +81,7 @@ export function PeriodResultCard({
             Sobra/Déficit
           </dt>
           <dd className={cn("mt-1.5 text-sm font-semibold", tone.className)}>{tone.label}</dd>
-          <dd className={cn("num whitespace-nowrap text-xl font-semibold 2xl:text-2xl", tone.className)}>
+          <dd className={cn("lume-summary-value num text-xl font-semibold 2xl:text-2xl", tone.className)}>
             <FadeValue value={formatSignedBRL(summary.resultCents)} />
           </dd>
           <dd className="mt-1 text-xs text-subtle-foreground">Entradas − minha parte</dd>

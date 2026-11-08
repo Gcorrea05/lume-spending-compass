@@ -5,6 +5,7 @@
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
+@import "./styles/frontend-polish.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -206,7 +207,7 @@
     font-feature-settings: "cv11", "ss01";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
+    min-width: 0;
   }
 
   :focus-visible {

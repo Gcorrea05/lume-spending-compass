@@ -1,0 +1,116 @@
+/* Lume 0.1.1 hotfix3 — visual fixes only. Financial rules and data are unchanged.
+ * Dialogs fade without scaling their hit targets. Auth actions wrap at 200% text size.
+ * Do not mask layout regressions using overflow-x: hidden/clip on the page.
+ */
+.lume-page { container: lume-page / inline-size; }
+.lume-dashboard-grid { grid-template-columns: minmax(0, 1fr); }
+.lume-dashboard-grid > *, .lume-result-grid > *, .lume-filters-grid > * { min-width: 0; }
+@container lume-page (min-width: 64rem) {
+  .lume-dashboard-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr); }
+}
+.lume-period-card { container: lume-result / inline-size; }
+.lume-result-grid { display: grid; grid-template-columns: minmax(0, 1fr); }
+.lume-result-grid > :first-child { border-radius: .5rem .5rem 0 0; }
+.lume-result-grid > :last-child { border-radius: 0 0 .5rem .5rem; }
+@container lume-result (min-width: 34rem) {
+  .lume-result-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lume-result-grid > :last-child { grid-column: 1 / -1; }
+}
+@container lume-result (min-width: 52rem) {
+  .lume-result-grid { grid-template-columns: minmax(0,1fr) minmax(0,1fr) minmax(0,1.1fr); }
+  .lume-result-grid > :last-child { grid-column: auto; border-radius: 0 .5rem .5rem 0; }
+  .lume-result-grid > :first-child { border-radius: .5rem 0 0 .5rem; }
+}
+.lume-summary-value, .lume-balance-value, .lume-money, .lume-money * {
+  max-width: 100%; overflow-wrap: anywhere; white-space: normal;
+}
+.lume-summary-value > *, .lume-balance-value > * { max-width: 100%; }
+.lume-expense-list { min-width: 0; container: lume-list / inline-size; }
+.lume-expense-table { display: none; }
+.lume-expense-cards { display: block; }
+.lume-expense-cards > li { min-width: 0; }
+.lume-expense-cards .num { overflow-wrap: anywhere; white-space: normal; }
+@media (min-width: 80rem) {
+  @container lume-list (min-width: 56rem) {
+    .lume-expense-table { display: block; }
+    .lume-expense-cards { display: none; }
+  }
+}
+.lume-expense-table table { table-layout: fixed; }
+.lume-expense-table th:nth-child(1) { width: 14%; }
+.lume-expense-table th:nth-child(2) { width: 26%; }
+.lume-expense-table th:nth-child(3) { width: 19%; }
+.lume-expense-table th:nth-child(4) { width: 24%; }
+.lume-expense-table th:nth-child(5) { width: 17%; }
+.lume-expense-table td { overflow-wrap: anywhere; }
+.lume-expense-table td p, .lume-expense-table td .num { white-space: normal; }
+.lume-filters { container: lume-filters / inline-size; }
+.lume-filters-grid { grid-template-columns: minmax(0,1fr); align-items: start; }
+@container lume-filters (min-width: 38rem) {
+  .lume-filters-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .lume-interval-field { order: 3; grid-column: 1 / -1; }
+}
+@container lume-filters (min-width: 68rem) {
+  .lume-filters-grid { grid-template-columns: minmax(0,1fr) minmax(0,1.2fr) minmax(0,1fr); }
+  .lume-interval-field { order: 0; grid-column: auto; }
+}
+.lume-interval-options > button { min-width: 0; white-space: normal; overflow-wrap: anywhere; }
+.lume-app button, .lume-auth-main button { min-height: 2.75rem; }
+.lume-app button[aria-label], .lume-auth-main button[aria-label] { min-width: 2.75rem; }
+.lume-app a, .lume-auth a { overflow-wrap: anywhere; }
+.lume-auth-main { padding-bottom: max(2.5rem, env(safe-area-inset-bottom)); }
+/* A flex child with nowrap text can exceed the form even when its parent shrinks. */
+.lume-auth-content, .lume-auth-content form { min-width: 0; max-width: 100%; }
+.lume-auth-content :is(h1, p, label, a) { overflow-wrap: anywhere; }
+.lume-auth-content :is(button:not([aria-label]), a.press) {
+  min-width: 0; max-width: 100%; height: auto;
+  min-height: max(44px, 2.75rem); padding-block: .625rem;
+  white-space: normal; overflow-wrap: anywhere; line-height: 1.5;
+}
+.lume-auth-content :is(button, a.press) svg { flex-shrink: 0; }
+.lume-field-label { min-width: 0; flex-wrap: wrap; }
+.lume-field-label > * { min-width: 0; max-width: 100%; overflow-wrap: anywhere; }
+
+.lume-auth-main input { min-height: 2.75rem; scroll-margin-block: 5rem; }
+@media (max-height: 44rem) {
+  .lume-auth-main { align-items: flex-start; padding-top: 5rem; }
+}
+/* The inner scroller keeps Close available while a mobile keyboard is open. */
+.lume-dialog {
+  top: calc(var(--lume-viewport-top, 0px) + var(--lume-viewport-height, 100dvh) / 2);
+  width: min(calc(100vw - 2rem), 32rem);
+  max-height: max(0px, calc(var(--lume-viewport-height, 100dvh) - 2rem));
+  padding: 0; overflow: hidden; border-radius: .875rem;
+}
+.lume-dialog-scroll {
+  padding: 1.5rem;
+  max-height: max(0px, calc(var(--lume-viewport-height, 100dvh) - 2rem));
+  overflow-y: auto; overscroll-behavior: contain;
+  scroll-padding-block: 3.5rem 1rem;
+}
+.lume-dialog input { scroll-margin-block: 3.5rem 1rem; }
+.lume-overlay-close {
+  position: absolute; z-index: 2; top: .5rem; right: .5rem;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: max(44px, 2.75rem); height: max(44px, 2.75rem);
+  min-width: 44px; min-height: 44px; flex-shrink: 0; border-radius: .625rem;
+  background: var(--color-background); color: var(--color-muted-foreground);
+  cursor: pointer; transition: background-color 150ms, color 150ms;
+}
+.lume-overlay-close:hover { background: var(--color-accent); color: var(--color-foreground); }
+.lume-overlay-close:focus-visible { outline: 2px solid var(--color-ring); outline-offset: 2px; }
+.lume-overlay-close:disabled { pointer-events: none; opacity: .5; }
+.lume-sheet { top: var(--lume-viewport-top, 0px); bottom: auto; height: var(--lume-viewport-height, 100dvh); max-height: var(--lume-viewport-height, 100dvh); overflow-y: auto; overscroll-behavior: contain; }
+.lume-skip-link {
+  position: fixed; top: .5rem; left: .5rem; z-index: 100;
+  padding: .75rem 1rem; border-radius: .5rem;
+  background: var(--color-primary); color: var(--color-primary-foreground);
+  transform: translateY(-150%);
+}
+.lume-skip-link:focus { transform: translateY(0); }
+@media (pointer: coarse) {
+  .lume-auth-main input, .lume-dialog input { font-size: max(1rem, 16px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lume-overlay-close, .lume-skip-link { transition: none; }
+}

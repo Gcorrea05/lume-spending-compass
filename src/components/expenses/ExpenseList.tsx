@@ -26,9 +26,9 @@ export function ExpenseList({ items, listKey, status = "ready", emptyMessage, on
   if (items.length === 0) return <ExpenseListEmpty message={emptyMessage} />;
 
   return (
-    <>
-      {/* Tablet / desktop table */}
-      <div className="hidden xl:block">
+    <div className="lume-expense-list">
+      {/* Table only when viewport and content width both allow it. */}
+      <div className="lume-expense-table" data-testid="expense-table">
         <table className="w-full border-collapse text-left">
           <thead>
             <tr className="border-b border-border text-xs font-medium uppercase tracking-wide text-subtle-foreground">
@@ -65,10 +65,10 @@ export function ExpenseList({ items, listKey, status = "ready", emptyMessage, on
       </div>
 
       {/* Mobile cards */}
-      <motion.ul key={`m-${listKey}`} {...enter} className="divide-y divide-border xl:hidden">
+      <motion.ul key={`m-${listKey}`} {...enter} className="lume-expense-cards divide-y divide-border" data-testid="expense-cards">
         {items.map((e) => (
           <li key={e.id} className="px-4 py-4">
-            <div className="flex items-start justify-between gap-3">
+            <div className="lume-expense-card-heading flex flex-wrap items-start justify-between gap-3">
               <div className="min-w-0">
                 <p className="break-words font-medium text-foreground">{e.description}</p>
                 <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
@@ -81,7 +81,7 @@ export function ExpenseList({ items, listKey, status = "ready", emptyMessage, on
                 </p>
               </div>
               {!e.shared && (
-                <div className="shrink-0">
+                <div className="lume-money min-w-0 max-w-full">
                   <ExpenseAmount expense={e} />
                 </div>
               )}
@@ -96,7 +96,7 @@ export function ExpenseList({ items, listKey, status = "ready", emptyMessage, on
           </li>
         ))}
       </motion.ul>
-    </>
+    </div>
   );
 }
 

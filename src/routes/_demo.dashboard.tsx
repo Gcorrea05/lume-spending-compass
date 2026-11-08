@@ -11,6 +11,7 @@ import { emptyMessageFor, useExpenseFilters } from "@/components/expenses/use-ex
 import { Button } from "@/components/ui/button";
 import { BRAND, pageTitle } from "@/config/brand";
 import { demoRepository } from "@/mocks/demo-repository";
+import { formatDate } from "@/lib/format";
 import { useDemoSession } from "@/state/demo-session";
 
 export const Route = createFileRoute("/_demo/dashboard")({
@@ -45,9 +46,9 @@ function DashboardPage() {
 
   return (
     <>
-      <PageHeader title="Dashboard" />
+      <PageHeader title="Dashboard" description={`Dados fictícios · referência da demonstração: ${formatDate(demoRepository.calendar.baseDate)}`} />
 
-      <div className="grid grid-cols-1 gap-4 lg:gap-5 xl:grid-cols-[minmax(18rem,1fr)_minmax(0,2.2fr)]">
+      <div className="lume-dashboard-grid grid gap-4 lg:gap-5">
         <motion.div {...cardIn(0)} className="flex">
           <BalanceCard balanceCents={balanceCents} onAdjust={setBalanceCents} className="w-full" />
         </motion.div>

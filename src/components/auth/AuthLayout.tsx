@@ -15,7 +15,7 @@ interface AuthLayoutProps {
 
 export function AuthLayout({ title, description, children, footer }: AuthLayoutProps) {
   return (
-    <div className="auth-backdrop min-h-dvh lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
+    <div className="auth-backdrop lume-auth min-h-svh lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
       <aside className="auth-panel relative hidden overflow-hidden border-r border-border lg:flex lg:flex-col lg:justify-between lg:p-12 xl:p-16">
         <LumeLogo size="lg" />
         <div className="relative z-10 max-w-md">
@@ -30,7 +30,7 @@ export function AuthLayout({ title, description, children, footer }: AuthLayoutP
         <DecorativeRings />
       </aside>
 
-      <main className="relative flex min-h-dvh justify-center px-5 pb-10 pt-6 sm:items-center sm:px-8 sm:py-12">
+      <main className="lume-auth-main relative flex min-h-svh min-w-0 justify-center px-5 pb-10 pt-20 sm:items-center sm:px-8 sm:py-20">
         <div className="absolute right-3 top-3 sm:right-5 sm:top-5">
           <ThemeToggle />
         </div>
@@ -38,7 +38,7 @@ export function AuthLayout({ title, description, children, footer }: AuthLayoutP
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.22, ease: "easeOut" }}
-          className="w-full max-w-[25rem]"
+          className="lume-auth-content min-w-0 w-full max-w-[25rem]"
         >
           <div className="mb-8 flex flex-col gap-1.5 lg:hidden">
             <LumeLogo />

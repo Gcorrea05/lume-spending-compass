@@ -4,7 +4,7 @@ import { Eye, EyeOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export const inputClass =
-  "h-11 w-full rounded-lg border border-input bg-surface px-3.5 text-[0.95rem] text-foreground placeholder:text-subtle-foreground transition-colors duration-150 hover:border-border-strong focus-visible:outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-ring/40 aria-[invalid=true]:border-danger aria-[invalid=true]:focus-visible:ring-danger/30";
+  "h-11 min-w-0 w-full max-w-full rounded-lg border border-input bg-surface px-3.5 text-[0.95rem] text-foreground placeholder:text-subtle-foreground transition-colors duration-150 hover:border-border-strong focus-visible:outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-ring/40 aria-[invalid=true]:border-danger aria-[invalid=true]:focus-visible:ring-danger/30";
 
 interface FieldProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "id"> {
   id: string;
@@ -21,7 +21,7 @@ export const TextField = forwardRef<HTMLInputElement, FieldProps>(function TextF
   const errorId = `${id}-erro`;
   return (
     <div className="space-y-1.5">
-      <div className="flex items-baseline justify-between gap-3">
+      <div className="lume-field-label flex min-w-0 flex-wrap items-baseline justify-between gap-x-3 gap-y-1.5">
         <label htmlFor={id} className="text-sm font-medium text-foreground">
           {label}
         </label>

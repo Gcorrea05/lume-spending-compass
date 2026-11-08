@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { LayoutDashboard, LogOut, Menu, PlusCircle, ReceiptText } from "lucide-react";
 
@@ -10,7 +10,7 @@ import { Sheet, SheetContent, SheetDescription, SheetTitle } from "@/components/
 import { useDemoSession } from "@/state/demo-session";
 
 const navItemClass =
-  "press flex h-11 items-center gap-3 rounded-lg px-3 text-[0.95rem] font-medium text-muted-foreground hover:bg-sidebar-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
+  "press flex min-h-11 items-center gap-3 py-2 leading-relaxed [&>svg]:shrink-0 rounded-lg px-3 text-[0.95rem] font-medium text-muted-foreground hover:bg-sidebar-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
 const navActiveClass = "bg-sidebar-accent text-foreground [&>svg]:text-primary";
 
 function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
@@ -72,11 +72,13 @@ function ExitDemo({ onDone }: { onDone?: () => void }) {
 
 export function AppShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   return (
-    <div className="min-h-dvh lg:pl-64">
+    <div className="lume-app min-h-dvh lg:pl-64">
+      <a href="#lume-main" className="lume-skip-link">Pular para o conteúdo</a>
       {/* Desktop sidebar */}
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-sidebar-border bg-sidebar px-4 py-6 lg:flex">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col overflow-y-auto overscroll-contain border-r border-sidebar-border bg-sidebar px-4 py-6 lg:flex">
         <div className="px-2">
           <LumeLogo />
         </div>
@@ -94,6 +96,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         <Button
           variant="ghost"
           size="icon"
+          ref={menuButtonRef}
           aria-label="Abrir menu"
           aria-expanded={open}
           onClick={() => setOpen(true)}
@@ -104,9 +107,10 @@ export function AppShell({ children }: { children: ReactNode }) {
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetContent
           side="left"
-          className="flex w-[17rem] flex-col border-sidebar-border bg-sidebar px-4 py-6 data-[state=closed]:duration-200 data-[state=open]:duration-250"
+          onCloseAutoFocus={(event) => { event.preventDefault(); menuButtonRef.current?.focus(); }}
+          className="flex w-[17rem] max-w-[calc(100vw-2rem)] flex-col border-sidebar-border bg-sidebar px-4 py-6 data-[state=closed]:duration-200 data-[state=open]:duration-250"
         >
-          <SheetTitle className="px-2">
+          <SheetTitle className="pl-2 pr-12">
             <LumeLogo />
           </SheetTitle>
           <SheetDescription className="sr-only">Menu de navegação</SheetDescription>
@@ -119,7 +123,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         </SheetContent>
       </Sheet>
 
-      <main className="mx-auto w-full max-w-[90rem] px-4 pb-16 pt-6 sm:px-6 lg:px-10 lg:pt-8">
+      <main id="lume-main" tabIndex={-1} className="lume-page mx-auto min-w-0 w-full max-w-[90rem] px-4 pb-16 pt-6 sm:px-6 lg:px-10 lg:pt-8">
         {children}
       </main>
     </div>
