@@ -10,33 +10,120 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DemoRouteImport } from './routes/_demo'
+import { Route as CriarContaRouteImport } from './routes/criar-conta'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as RecuperarSenhaRouteImport } from './routes/recuperar-senha'
+import { Route as DemoDashboardRouteImport } from './routes/_demo.dashboard'
+import { Route as DemoGastosIndexRouteImport } from './routes/_demo.gastos.index'
+import { Route as DemoGastosNovoRouteImport } from './routes/_demo.gastos.novo'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DemoRoute = DemoRouteImport.update({
+  id: '/_demo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CriarContaRoute = CriarContaRouteImport.update({
+  id: '/criar-conta',
+  path: '/criar-conta',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecuperarSenhaRoute = RecuperarSenhaRouteImport.update({
+  id: '/recuperar-senha',
+  path: '/recuperar-senha',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DemoDashboardRoute = DemoDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => DemoRoute,
+} as any)
+const DemoGastosIndexRoute = DemoGastosIndexRouteImport.update({
+  id: '/gastos/',
+  path: '/gastos/',
+  getParentRoute: () => DemoRoute,
+} as any)
+const DemoGastosNovoRoute = DemoGastosNovoRouteImport.update({
+  id: '/gastos/novo',
+  path: '/gastos/novo',
+  getParentRoute: () => DemoRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/criar-conta': typeof CriarContaRoute
+  '/login': typeof LoginRoute
+  '/recuperar-senha': typeof RecuperarSenhaRoute
+  '/dashboard': typeof DemoDashboardRoute
+  '/gastos/novo': typeof DemoGastosNovoRoute
+  '/gastos/': typeof DemoGastosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/criar-conta': typeof CriarContaRoute
+  '/login': typeof LoginRoute
+  '/recuperar-senha': typeof RecuperarSenhaRoute
+  '/dashboard': typeof DemoDashboardRoute
+  '/gastos/novo': typeof DemoGastosNovoRoute
+  '/gastos': typeof DemoGastosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_demo': typeof DemoRouteWithChildren
+  '/criar-conta': typeof CriarContaRoute
+  '/login': typeof LoginRoute
+  '/recuperar-senha': typeof RecuperarSenhaRoute
+  '/_demo/dashboard': typeof DemoDashboardRoute
+  '/_demo/gastos/novo': typeof DemoGastosNovoRoute
+  '/_demo/gastos/': typeof DemoGastosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/criar-conta'
+    | '/login'
+    | '/recuperar-senha'
+    | '/dashboard'
+    | '/gastos/novo'
+    | '/gastos/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/criar-conta'
+    | '/login'
+    | '/recuperar-senha'
+    | '/dashboard'
+    | '/gastos/novo'
+    | '/gastos'
+  id:
+    | '__root__'
+    | '/'
+    | '/_demo'
+    | '/criar-conta'
+    | '/login'
+    | '/recuperar-senha'
+    | '/_demo/dashboard'
+    | '/_demo/gastos/novo'
+    | '/_demo/gastos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DemoRoute: typeof DemoRouteWithChildren
+  CriarContaRoute: typeof CriarContaRoute
+  LoginRoute: typeof LoginRoute
+  RecuperarSenhaRoute: typeof RecuperarSenhaRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +135,78 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_demo': {
+      id: '/_demo'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof DemoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/criar-conta': {
+      id: '/criar-conta'
+      path: '/criar-conta'
+      fullPath: '/criar-conta'
+      preLoaderRoute: typeof CriarContaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recuperar-senha': {
+      id: '/recuperar-senha'
+      path: '/recuperar-senha'
+      fullPath: '/recuperar-senha'
+      preLoaderRoute: typeof RecuperarSenhaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_demo/dashboard': {
+      id: '/_demo/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DemoDashboardRouteImport
+      parentRoute: typeof DemoRoute
+    }
+    '/_demo/gastos/': {
+      id: '/_demo/gastos/'
+      path: '/gastos'
+      fullPath: '/gastos/'
+      preLoaderRoute: typeof DemoGastosIndexRouteImport
+      parentRoute: typeof DemoRoute
+    }
+    '/_demo/gastos/novo': {
+      id: '/_demo/gastos/novo'
+      path: '/gastos/novo'
+      fullPath: '/gastos/novo'
+      preLoaderRoute: typeof DemoGastosNovoRouteImport
+      parentRoute: typeof DemoRoute
+    }
   }
 }
 
+interface DemoRouteChildren {
+  DemoDashboardRoute: typeof DemoDashboardRoute
+  DemoGastosNovoRoute: typeof DemoGastosNovoRoute
+  DemoGastosIndexRoute: typeof DemoGastosIndexRoute
+}
+
+const DemoRouteChildren: DemoRouteChildren = {
+  DemoDashboardRoute: DemoDashboardRoute,
+  DemoGastosNovoRoute: DemoGastosNovoRoute,
+  DemoGastosIndexRoute: DemoGastosIndexRoute,
+}
+
+const DemoRouteWithChildren = DemoRoute._addFileChildren(DemoRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DemoRoute: DemoRouteWithChildren,
+  CriarContaRoute: CriarContaRoute,
+  LoginRoute: LoginRoute,
+  RecuperarSenhaRoute: RecuperarSenhaRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
