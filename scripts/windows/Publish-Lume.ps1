@@ -38,19 +38,23 @@ try {
     $userEmail=& $git -C $clone config user.email
     if (-not $userName -or -not $userEmail) { throw 'Configure user.name e user.email no seu Git antes de publicar. O pacote nao inventa sua identidade.' }
     foreach ($entry in $receipt.files.PSObject.Properties) {
+        $relativeName = $entry.Name.Replace('\','/')
+        if ($relativeName -match '(?i)\.(exe|dll|msi|msix|zip|7z|tar|gz)$' -or $relativeName -match '(?i)(^|/)(node_modules|dist|tools|downloads|runtime|\.git)(/|$)') {
+            throw ('Publicacao bloqueada: arquivo local ou binario nao permitido: {0}' -f $entry.Name)
+        }
         $from=Get-SafeChild $current.source $entry.Name
         $to=Get-SafeChild $clone $entry.Name
         Ensure-Directory (Split-Path $to)
         Copy-Item -LiteralPath $from -Destination $to -Force
         Invoke-Native $git @('add','--',$entry.Name) $clone
     }
-    $logPath=Join-Path $clone 'docs/VALIDACAO-LOCAL-0.1.1.json'
+    $logPath=Join-Path $clone 'docs/VALIDACAO-LOCAL-0.2.0.json'
     Ensure-Directory (Split-Path $logPath)
     # No machine names, user paths, credentials or personal expenses in the public report.
     Write-Json $logPath ([ordered]@{version=$validation.version;baseCommit=$receipt.baseCommit;validatedAt=$validation.validatedAt;node=$validation.node;bun=$validation.bun;checks=$validation.checks;browserPassed=$validation.browserPassed;browserFailed=$validation.browserFailed;limitations=$validation.limitations;sourceHashes=$receipt.files})
-    Invoke-Native $git @('add','--','docs/VALIDACAO-LOCAL-0.1.1.json') $clone
+    Invoke-Native $git @('add','--','docs/VALIDACAO-LOCAL-0.2.0.json') $clone
     Invoke-Native $git @('diff','--cached','--check') $clone
-    Invoke-Native $git @('commit','-m','fix(frontend): responsive overlays, accessible layout and Windows local installer') $clone
+    Invoke-Native $git @('commit','-m','feat(frontend): expense entry form, typed review and regression checks') $clone
     # Ordinary fast-forward push rejects concurrent changes; never force or rewrite history.
     Invoke-Native $git @('push','origin','HEAD:refs/heads/main') $clone
     $published=(& $git -C $clone rev-parse HEAD).Trim()

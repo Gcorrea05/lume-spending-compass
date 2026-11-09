@@ -19,8 +19,8 @@ if (Test-Path -LiteralPath $InstallRoot) {
 }
 Ensure-Directory $InstallRoot
 if (-not (Test-Path -LiteralPath $markerPath)) { Write-Json $markerPath @{application='gcorrea05.lume.frontend'} }
-$version = '0.1.1-frontend-hotfix3'
-$baseCommit = 'fc1d465b03cb25c2174a9a90e8e808dd8fda7a7b'
+$version = '0.2.0-frontend-cadastro'
+$baseCommit = 'ed289fe7e5e80749256a66496c22cc909e88cddd'
 $nodeVersion = '24.22.2'
 $bunVersion = '1.4.4'
 $token = [Guid]::NewGuid().ToString('N')
@@ -37,7 +37,7 @@ $ok = $false
 $activated = $false
 $hadPrevious = $false
 try {
-    Write-Host 'Lume - frontend 0.1.1 (instalador hotfix3)' -ForegroundColor Cyan
+    Write-Host 'Lume - frontend 0.2.0 (cadastro de gastos)' -ForegroundColor Cyan
     Write-Host 'Instalacao por usuario; sem banco, conta real, servico ou publicacao na internet.'
     Write-Host '[1/8] Conferindo integridade do pacote...'
     $manifest = Read-Json (Join-Path $PackageRoot 'manifest.json')
@@ -100,14 +100,16 @@ try {
     Invoke-Native $node @($npm,'install','--ignore-scripts','--no-audit','--no-fund') (Join-Path $source 'qa')
     Invoke-Native $node @('qa/node_modules/playwright/cli.js','install','chromium') $source
     Invoke-Native $node @('qa/frontend.mjs',(Join-Path $runtime 'site'),(Join-Path $logs 'browser')) $source
+    Invoke-Native $node @('qa/expense-entry.mjs',(Join-Path $runtime 'site'),(Join-Path $logs 'cadastro')) $source
     [void](Test-Receipt $source)
     $browserReport = Read-Json (Join-Path $logs 'browser/browser-report.json')
-    if ($browserReport.failed -ne 0) { throw 'Ha verificacoes visuais automatizadas com falha. Versao nao ativada.' }
+    $entryReport = Read-Json (Join-Path $logs 'cadastro/browser-report.json')
+    if ($browserReport.failed -ne 0 -or $entryReport.failed -ne 0) { throw 'Ha verificacoes visuais automatizadas com falha. Versao nao ativada.' }
     $validation = [ordered]@{
         version=$version; baseCommit=$baseCommit; validated=$true; validatedAt=(Get-Date).ToUniversalTime().ToString('o');
-        node=$actualNode; bun=$actualBun; checks=@('unit-tests','runtime-tests','typescript','spa-build','browser-geometry-and-flows');
-        browserPassed=$browserReport.passed; browserFailed=$browserReport.failed;
-        limitations=@('Teclado fisico de celular nao testado; viewport reduzido e uma aproximacao.','Ampliacao de fonte nao substitui todos os modos de zoom do navegador.','Dados e acesso continuam demonstrativos.')
+        node=$actualNode; bun=$actualBun; checks=@('unit-tests','runtime-tests','typescript','spa-build','browser-geometry-and-flows','expense-entry-form-browser');
+        browserPassed=($browserReport.passed + $entryReport.passed); browserFailed=($browserReport.failed + $entryReport.failed);
+        limitations=@('Teclado fisico de celular nao testado; viewport reduzido e uma aproximacao.','Ampliacao de fonte nao substitui todos os modos de zoom do navegador.','Dados e acesso continuam demonstrativos; o cadastro apenas confere campos, sem gravacao.')
     }
     Write-Json (Join-Path $release 'validation.json') $validation
     Write-Host '[8/8] Ativando a versao validada e criando atalhos...'

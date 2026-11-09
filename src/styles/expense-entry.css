@@ -1,0 +1,56 @@
+/* Frontend-only expense form. Semantic theme tokens come from the existing Lume shell. */
+.expense-entry { width:100%; max-width:76rem; min-width:0; }
+.expense-entry *, .expense-entry *::before, .expense-entry *::after { box-sizing:border-box; }
+.expense-entry__notice { display:flex; align-items:flex-start; gap:.75rem; margin-bottom:1.5rem; padding:1rem 1.125rem; border:1px solid var(--border); border-radius:var(--radius); background:var(--primary-soft); font-size:.875rem; line-height:1.6; }
+.expense-entry__notice > svg { width:1.125rem; height:1.125rem; flex:0 0 auto; margin-top:.15rem; color:var(--primary); }
+.expense-entry__notice p { min-width:0; overflow-wrap:anywhere; }
+.expense-entry__form { display:grid; gap:1.25rem; min-width:0; }
+.expense-entry__section { padding:clamp(1rem, 2.5vw, 1.75rem); min-width:0; }
+.expense-entry__section h2 { font-size:1.125rem; font-weight:600; line-height:1.5; margin:0; }
+.expense-entry__intro { color:var(--muted-foreground); font-size:.9375rem; line-height:1.6; margin:.25rem 0 1.25rem; overflow-wrap:anywhere; }
+.expense-entry__grid { display:grid; grid-template-columns:minmax(0,1fr); gap:1.125rem; min-width:0; }
+.expense-entry__full { grid-column:1 / -1; min-width:0; }
+.expense-entry__field { display:grid; align-content:start; gap:.45rem; min-width:0; }
+.expense-entry__field > label { display:block; color:var(--foreground); font-size:.875rem; font-weight:500; line-height:1.5; overflow-wrap:anywhere; }
+.expense-entry__field input, .expense-entry__field select { display:block; width:100%; max-width:100%; min-width:0; min-inline-size:0; min-height:2.875rem; height:auto; padding:.65rem .85rem; border:1px solid var(--input); border-radius:.625rem; font:inherit; font-size:1rem; line-height:1.5; color:var(--foreground); background:var(--surface); transition:border-color .16s ease; }
+.expense-entry__field input::-webkit-date-and-time-value { text-align:left; min-width:0; }
+.expense-entry__field input:read-only { background:var(--surface-raised); color:var(--muted-foreground); }
+.expense-entry__field input::placeholder { color:var(--subtle-foreground); }
+.expense-entry__field input:focus-visible, .expense-entry__field select:focus-visible { outline:2px solid var(--ring); outline-offset:2px; }
+.expense-entry__field input[aria-invalid="true"], .expense-entry__field select[aria-invalid="true"] { border-color:var(--danger); }
+.expense-entry__help { color:var(--muted-foreground); font-size:.875rem; line-height:1.6; margin:0; min-width:0; overflow-wrap:anywhere; }
+.expense-entry__error { color:var(--danger); font-size:.875rem; line-height:1.5; margin:0; overflow-wrap:anywhere; }
+.expense-entry__alert { border:1px solid var(--danger); border-radius:var(--radius); padding:1rem; color:var(--danger); line-height:1.5; }
+.expense-entry__inset { display:grid; gap:1rem; min-width:0; margin-top:1.125rem; padding:1rem; background:var(--surface-raised); border:1px solid var(--border); border-radius:var(--radius); line-height:1.6; }
+.expense-entry__choices { display:grid; grid-template-columns:minmax(0,1fr); gap:.75rem; }
+.expense-entry__choice { display:flex; gap:.75rem; align-items:flex-start; min-width:0; min-height:3rem; border:1px solid var(--input); border-radius:var(--radius); padding:1rem; cursor:pointer; transition:background-color .18s ease,border-color .18s ease; }
+.expense-entry__choice:hover { background:var(--surface-raised); }
+.expense-entry__choice[data-selected="true"] { background:var(--primary-soft); border-color:var(--primary); }
+.expense-entry__choice input { width:1.125rem; height:1.125rem; flex:0 0 auto; margin-top:.125rem; accent-color:var(--primary); }
+.expense-entry__choice span { min-width:0; overflow-wrap:anywhere; }
+.expense-entry__choice strong { display:block; font-size:.9375rem; font-weight:500; line-height:1.5; }
+.expense-entry__choice small { display:block; color:var(--muted-foreground); font-size:.8125rem; line-height:1.5; margin-top:.2rem; }
+.expense-entry__participants { display:grid; gap:1rem; min-width:0; }
+.expense-entry__participant { display:grid; grid-template-columns:minmax(0,1fr); align-items:end; gap:.75rem; padding:1rem; border:1px solid var(--border); border-radius:var(--radius); min-width:0; }
+.expense-entry__remove { display:inline-flex; width:44px; height:44px; min-width:44px; min-height:44px; align-items:center; justify-content:center; justify-self:end; border:1px solid var(--input); border-radius:.625rem; color:var(--muted-foreground); background:var(--surface); cursor:pointer; }
+.expense-entry__remove:hover { color:var(--danger); border-color:var(--danger); }
+.expense-entry__remove svg { width:1.125rem; height:1.125rem; }
+.expense-entry__sharing-footer { display:flex; align-items:center; flex-wrap:wrap; gap:1rem; margin-top:1rem; }
+.expense-entry .expense-entry__action { min-width:0; max-width:100%; white-space:normal; height:auto; min-height:44px; padding:.65rem 1rem; text-align:center; line-height:1.5; overflow-wrap:anywhere; }
+.expense-entry .expense-entry__action > svg { flex-shrink:0; }
+.expense-entry__actions { display:flex; flex-wrap:wrap; gap:.75rem; justify-content:space-between; margin-top:.25rem; }
+.expense-entry__review { margin-top:1.5rem; border-color:var(--primary); scroll-margin-top:6rem; }
+.expense-entry__review:focus { outline:2px solid var(--ring); outline-offset:3px; }
+.expense-entry__summary { display:grid; grid-template-columns:minmax(0,1fr); gap:1.125rem; padding:0; margin:1.25rem 0; }
+.expense-entry__summary > div { min-width:0; }
+.expense-entry__summary dt { font-size:.8125rem; color:var(--muted-foreground); margin-bottom:.3rem; }
+.expense-entry__summary dd { margin:0; line-height:1.5; font-weight:500; overflow-wrap:anywhere; }
+.expense-entry__review-shares { list-style:none; padding:0; margin:1.25rem 0; border-top:1px solid var(--border); }
+.expense-entry__review-shares li { display:flex; flex-wrap:wrap; justify-content:space-between; gap:.5rem 1.5rem; padding:.625rem 0; border-bottom:1px solid var(--border); overflow-wrap:anywhere; }
+@media (min-width:48rem) {
+  .expense-entry__grid, .expense-entry__summary { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .expense-entry__choices { grid-template-columns:repeat(3,minmax(0,1fr)); }
+  .expense-entry__participant { grid-template-columns:minmax(0,1fr) minmax(0,1fr) 44px; }
+}
+@media (max-width:30rem) { .expense-entry__actions > * { width:100%; } }
+@media (prefers-reduced-motion:reduce) { .expense-entry * { transition:none !important; scroll-behavior:auto !important; } }

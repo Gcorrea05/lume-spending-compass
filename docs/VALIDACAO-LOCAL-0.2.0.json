@@ -1,0 +1,34 @@
+{
+    "version":  "0.2.0-frontend-cadastro",
+    "baseCommit":  "ed289fe7e5e80749256a66496c22cc909e88cddd",
+    "validatedAt":  "2026-11-09T00:28:13.1032997Z",
+    "node":  "v24.22.2",
+    "bun":  "1.4.4",
+    "checks":  [
+                   "unit-tests",
+                   "runtime-tests",
+                   "typescript",
+                   "spa-build",
+                   "browser-geometry-and-flows",
+                   "expense-entry-form-browser"
+               ],
+    "browserPassed":  51,
+    "browserFailed":  0,
+    "limitations":  [
+                        "Teclado fisico de celular nao testado; viewport reduzido e uma aproximacao.",
+                        "Ampliacao de fonte nao substitui todos os modos de zoom do navegador.",
+                        "Dados e acesso continuam demonstrativos; o cadastro apenas confere campos, sem gravacao."
+                    ],
+    "sourceHashes":  {
+                         "docs/FRONTEND-0.2.0-CADASTRO.md":  "58575cf19f93863a8fdf055c1cab62bfd2ab740aa74b572874140c6160817ae8",
+                         "qa/expense-entry.mjs":  "065f9e7f3c4b774202b887c245d06f4b5cf91382e60174ae69081830dfce22a2",
+                         "scripts/windows/Install-Lume.ps1":  "fcc1c40cfaa60c30d7c4f95af8da368bb45859799ee578df826f7d5c4292504f",
+                         "scripts/windows/Publish-Lume.ps1":  "493f1f1e418e922276b70561e578c95a378838438adc6a2e988365e22da28809",
+                         "src/components/expenses/ExpenseEntryForm.tsx":  "8294c49e7e5d43b25edb9fbb60f2a5804d2b95bce4839c5fb77fb4a6573e98b5",
+                         "src/lib/expense-draft.ts":  "55b5961d327da28f4400b4294be5556708c88fcec79dd3cc434f22549e10c9a7",
+                         "src/routes/_demo.gastos.novo.tsx":  "f430415db119001788a4410b4a2fa5fc50a75404c5c96e0d5b3dca6ba050d96c",
+                         "src/styles/expense-entry.css":  "84eb1a4fab97a907db456295ac42b85161f82b0a8b86f52754ea01c527827bfd",
+                         "src/test/expense-draft.test.ts":  "800c65852c711bd589743ed9c6cacf4e5b6f6e77f440114f68aecc79c2b1b9bd",
+                         "src/types/expense-draft.ts":  "583a7efe34138f71e2f403cb89fb72a24c4bb3a106c3e2410faac085f6118cb5"
+                     }
+}
